@@ -1,9 +1,10 @@
 import functions as func
-import address_book
+import serialization
 
 def main():
     try:
-        book = address_book.AddressBook()
+        book = serialization.load_data()  
+
         print("Welcome to the assistant bot!")
 
         commands = {
@@ -21,7 +22,8 @@ def main():
             command, *args = func.parse_input(user_input)
 
             if command in ["close", "exit"]:
-                print("Good bye!")
+                serialization.save_data(book)
+                print("Good bye! Your data is saved")
                 break
 
             elif command == "hello":
