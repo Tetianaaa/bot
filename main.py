@@ -1,9 +1,21 @@
 import functions as func
+import address_book
 
 def main():
     try:
-        contacts = {}
+        book = address_book.AddressBook()
         print("Welcome to the assistant bot!")
+
+        commands = {
+            "add": func.add_contact,
+            "change": func.change_phone,
+            "phone": func.show_phone,
+            "all": lambda args, book: func.show_all(book),
+            "add-birthday" : func.add_birthday,
+            "show-birthday" : func.show_birthday,
+            "birthdays" : lambda args, book: func.birthdays(book),
+        }
+
         while True:
             user_input = input("Enter a command: ")
             command, *args = func.parse_input(user_input)
@@ -11,17 +23,14 @@ def main():
             if command in ["close", "exit"]:
                 print("Good bye!")
                 break
+
             elif command == "hello":
                 print("How can I help you?")
-            elif command == "add":
-                print(func.add_contact(args, contacts))
-            elif command == 'change':
-                print(func.change_phone(args, contacts))
-            elif command == 'phone':
-                print(func.show_phone(args, contacts))
-            elif command == 'all':
-                print(func.show_all(contacts))
-            
+
+            elif command in commands:
+                function = commands[command]
+                print(function(args, book))
+                
             else:
                 print("Invalid command.")
 
