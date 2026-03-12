@@ -1,6 +1,9 @@
 import functions as func
 import serialization
 
+def test():
+    pass
+
 def main():
     try:
         book = serialization.load_data()  
